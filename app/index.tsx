@@ -9,7 +9,7 @@ export default function Index() {
   }
 
   if (isSignedIn) {
-    return <Redirect href={"/(home)" as Href} />;
+    return <Redirect href={"/(tabs)" as Href} />;
   }
 
   return <Redirect href="/(auth)/sign-in" />;

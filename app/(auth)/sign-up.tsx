@@ -44,7 +44,7 @@ export default function SignUpScreen() {
             return;
           }
 
-          const url = decorateUrl("/(home)");
+          const url = decorateUrl("/(tabs)");
           if (url.startsWith("http")) {
             window.location.href = url;
           } else {

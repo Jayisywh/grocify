@@ -8,7 +8,7 @@ export default function HomeScreen() {
   const { signOut } = useClerk();
 
   return (
-    <View className="flex-1 bg-white px-6 pt-16 dark:bg-black">
+    <View className="flex-1 bg-background text-muted-foreground px-6 pt-16 dark:bg-black">
       <Text className="mb-6 text-3xl font-bold text-gray-900 dark:text-white">
         Grocifys
       </Text>

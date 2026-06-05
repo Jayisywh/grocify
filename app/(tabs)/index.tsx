@@ -1,64 +1,43 @@
-import { useClerk, useUser } from "@clerk/expo";
-import { ScrollView } from "react-native";
-import TabScreenBackground from "../components/TabScreenBackground";
+import { useEffect } from "react";
+import { FlatList, Text, View } from "react-native";
+import CompletedItems from "../components/lists/CompletedItems";
 import ListHeroCard from "../components/lists/ListHeroCard";
+import PendingItemCard from "../components/lists/PendingItemCard";
+import TabScreenBackground from "../components/TabScreenBackground";
+import { useGroceryStore } from "../store/grocery-store";
 
 export default function ListScreen() {
-  const { user } = useUser();
-  const { signOut } = useClerk();
+  const { items, loadItems } = useGroceryStore();
+  const pendingItems = items.filter((item) => !item.purchased);
+
+  useEffect(() => {
+    loadItems();
+  }, [loadItems]);
 
   return (
-    // <View className="flex-1 bg-background text-muted-foreground px-6 pt-16 dark:bg-black">
-    //   <Text className="mb-6 text-3xl font-bold text-gray-900 dark:text-white">
-    //     Grocify
-    //   </Text>
-
-    //   <Show when="signed-out">
-    //     <View className="gap-4">
-    //       <Link href="/(auth)/sign-in" asChild>
-    //         <Pressable className="items-center rounded-lg bg-blue-600 py-3 active:opacity-70">
-    //           <Text className="text-base font-semibold text-white">
-    //             Sign in
-    //           </Text>
-    //         </Pressable>
-    //       </Link>
-    //       <Link href="/(auth)/sign-up" asChild>
-    //         <Pressable className="items-center rounded-lg border border-blue-600 py-3 active:opacity-70">
-    //           <Text className="text-base font-semibold text-blue-600">
-    //             Sign up
-    //           </Text>
-    //         </Pressable>
-    //       </Link>
-    //     </View>
-    //   </Show>
-
-    //   <Show when="signed-in">
-    //     <View className="gap-4">
-    //       <Text className="text-lg text-gray-700 dark:text-gray-300">
-    //         Welcome, {user?.primaryEmailAddress?.emailAddress ?? user?.id}
-    //       </Text>
-    //       <Pressable
-    //         className="items-center rounded-lg bg-gray-800 py-3 active:opacity-70 dark:bg-gray-200"
-    //         onPress={() => signOut()}
-    //       >
-    //         <Text className="text-base font-semibold text-white dark:text-gray-900">
-    //           Sign out
-    //         </Text>
-    //       </Pressable>
-    //       <View className="h-9 w-9 rounded-full overflow-hidden">
-    //         <CustomUserButton />
-    //       </View>
-    //     </View>
-    //   </Show>
-    // </View>
-
-    <ScrollView
-      className="flex-1 bg-background py-4"
-      showsVerticalScrollIndicator={false}
+    <FlatList
+      className="flex-1 bg-background"
+      data={pendingItems}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <PendingItemCard item={item} />}
       contentContainerStyle={{ padding: 20, gap: 14 }}
-    >
-      <TabScreenBackground />
-      <ListHeroCard />
-    </ScrollView>
+      contentInsetAdjustmentBehavior="automatic"
+      ListHeaderComponent={
+        <View style={{ gap: 14 }}>
+          <TabScreenBackground />
+          <ListHeroCard />
+          <View className="flex-row items-center justify-between px-1">
+            <Text className="text-sm font-semibold uppercase tracking-[1px] text-muted-foreground">
+              Shopping Items
+            </Text>
+            <Text className="text-sm text-muted-foreground">
+              {pendingItems.length} active
+            </Text>
+          </View>
+        </View>
+      }
+      ListFooterComponent={<CompletedItems />}
+      ListEmptyComponent={<Text>No items in database</Text>}
+    />
   );
 }

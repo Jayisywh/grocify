@@ -95,7 +95,11 @@ export const useGroceryStore = create<GroceryStore>((set, get) => ({
       });
       const payload = (await res.json()) as ItemResponse;
       if (!res.ok) throw new Error(`Update failed (${res.status})`);
-      set((state) => ({ items: [...state.items, payload.item] }));
+      set((state) => ({
+        items: state.items.map((item) =>
+          item.id === id ? payload.item : item,
+        ),
+      }));
     } catch (error) {
       console.log("Error updating item quantity:", error);
       set({ error: "Failed to update item quantity" });

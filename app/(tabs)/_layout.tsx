@@ -6,7 +6,7 @@ import { useGroceryStore } from "../store/grocery-store";
 
 export default function TabsLayout() {
   const { isSignedIn, isLoaded } = useAuth();
-  const { loadItem } = useGroceryStore();
+  const { loadItems } = useGroceryStore();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const tabsTintColor = isDark ? "hsl(142 70% 54%)" : "hsl(147 75% 33%)";

@@ -1,10 +1,13 @@
+import { useGroceryStore } from "@/app/store/grocery-store";
 import { Text, View } from "react-native";
 
 const ListHeroCard = () => {
-  const {} = useGroceryStore();
-  const completedCount = 10;
-  const pendingCount = 10 - 1;
-  const completionRate = 90;
+  const { items } = useGroceryStore();
+  const completedCount = items.filter((item) => item.purchased).length;
+  const pendingCount = items.length - completedCount;
+  const completionRate = items.length
+    ? Math.round((completedCount / items.length) * 100)
+    : 0;
   return (
     <View className="rounded-3xl bg-primary p-5">
       <Text className="text-sm font-semibold uppercase tracking-[1px] text-primary-foreground/70">

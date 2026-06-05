@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export type GroceryCategory =
-  | "Product"
+  | "Produce"
   | "Diary"
   | "Bakery"
   | "Pantry"

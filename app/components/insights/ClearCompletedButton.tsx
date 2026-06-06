@@ -1,0 +1,15 @@
+import { useGroceryStore } from "@/app/store/grocery-store";
+import { Pressable, Text } from "react-native";
+
+const ClearCompletedButton = () => {
+  const { clearPurchased } = useGroceryStore();
+  return (
+    <Pressable className="rounded-2xl bg-primary y-3" onPress={clearPurchased}>
+      <Text className="text-center text-base font-semibold text-primary-foreground">
+        Clear completed items
+      </Text>
+    </Pressable>
+  );
+};
+
+export default ClearCompletedButton;
